@@ -2,6 +2,7 @@ var async = require("async");
 var aws = require("aws-sdk");
 var converter = require('number-to-words');
 var dynamodb = new aws.DynamoDB();
+const uuidv4 = require('uuid/v4')
 
 var currencies = ["Bitcoin", "Ethereum", "Bitcoin Cash"];
 var mainText = "";
@@ -65,9 +66,9 @@ function buildAndSendResponse(callback) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(
             {
-                "uid": "sfsdfs",
+                "uid": uuidv4(),
                 "updateDate": new Date(),
-                "titleText": "hello",
+                "titleText": "Today's most recent Crypto pricing Update",
                 "redirectionURL": "",
                 "mainText": mainText})
             });
