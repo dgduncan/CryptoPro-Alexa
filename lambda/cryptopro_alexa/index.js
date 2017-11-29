@@ -3,7 +3,7 @@
 
  let speechOutput;
  let reprompt;
- const welcomeOutput = "Let's plan a trip. Where would you like to go?";
+ const welcomeOutput = "Welcome to CryptoPro. What crypto currency would you like to get information on?";
  const welcomeReprompt = "Let me know where you'd like to go or when you'd like to go on your trip";
  const tripIntro = [
    "This sounds like a cool trip. ",
