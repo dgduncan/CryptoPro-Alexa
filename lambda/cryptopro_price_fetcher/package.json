@@ -1,0 +1,14 @@
+{
+  "name": "cryptopro_price_fetcher",
+  "version": "1.0.0",
+  "description": "Lambda function for cryptopro_price_fetcher",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Derek G Duncan",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.83.0"
+  }
+}
