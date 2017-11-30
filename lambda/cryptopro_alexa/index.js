@@ -14,42 +14,48 @@
 'use strict';
 const Alexa = require('alexa-sdk');
 const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+var aws = require('aws-sdk');
+var dynamodb = new aws.DynamoDB();
 
 const handlers = {
     'LaunchRequest': function () {
       this.response.speak(welcomeOutput).listen(welcomeReprompt);
       this.emit(':responseReady');
     },
-    'PlanMyTrip': function () {
+    'CryptoPro': function () {
         //delegate to Alexa to collect all the required slot values
-        var filledSlots = delegateSlotCollection.call(this);
+        //var filledSlots = delegateSlotCollection.call(this);
 
         //compose speechOutput that simply reads all the collected slot values
-        var speechOutput = randomPhrase(tripIntro);
 
+		
         //activity is optional so we'll add it to the output
         //only when we have a valid activity
-        var travelMode = isSlotValid(this.event.request, "travelMode");
-        if (travelMode) {
-          speechOutput += travelMode;
-        } else {
-          speechOutput += "You'll go ";
-        }
+        //var travelMode = isSlotValid(this.event.request, "travelMode");
+        //if (travelMode) {
+        //  speechOutput += travelMode;
+        //} else {
+        //  speechOutput += "You'll go ";
+        //}
 
         //Now let's recap the trip
-        var fromCity=this.event.request.intent.slots.fromCity.value;
-        var toCity=this.event.request.intent.slots.toCity.value;
-        var travelDate=this.event.request.intent.slots.travelDate.value;
-        speechOutput+= " from "+ fromCity + " to "+ toCity+" on "+travelDate;
+        var cryptoCurrency=this.event.request.intent.slots.cryptocurrency.value;
+        //var toCity=this.event.request.intent.slots.toCity.value;
+        //var travelDate=this.event.request.intent.slots.travelDate.value;
+        //var speechOutput = cryptoCurrency;
 
-        var activity = isSlotValid(this.event.request, "activity");
-        if (activity) {
-          speechOutput += " to go "+ activity;
-        }
+        //var activity = isSlotValid(this.event.request, "activity");
+        //if (activity) {
+        //  speechOutput += " to go "+ activity;
+        //}
 
-        //say the results
-        this.response.speak(speechOutput);
-        this.emit(":responseReady");
+		if(cryptoCurrency == null)
+			this.response.speak("No slot found");
+		else {
+			getCoin(cryptoCurrency, this);
+			//this.response.speak("help");
+			//this.emit(":responseReady");
+		}
     },
     'AMAZON.HelpIntent': function () {
         speechOutput = "";
@@ -86,3 +92,30 @@ exports.handler = (event, context) => {
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
+
+function getCoin(coin, contextt) {
+   var params = {
+        TableName: "CryptoPro",
+        Key: {
+            "name": {
+                S: "Bitcoin"
+            },
+        }
+    };
+	
+	//contextt.response.speak("help");
+	//contextt.emit(":responseReady");
+    
+    dynamodb.getItem(params, function(err, data) {
+        if (err) {
+            contextt.response.speak("help");
+			contextt.emit(":responseReady");
+			}
+        else {
+            contextt.response.speak("help");
+			contextt.emit(":responseReady");
+			}
+        });
+	
+	
+}

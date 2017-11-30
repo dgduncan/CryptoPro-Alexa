@@ -9,6 +9,7 @@
   "author": "Derek G Duncan",
   "license": "ISC",
   "dependencies": {
-    "alexa-sdk": "^1.0.21"
+    "alexa-sdk": "^1.0.21",
+    "aws-sdk": "^2.160.0"
   }
 }
