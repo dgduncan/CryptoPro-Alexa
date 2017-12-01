@@ -15,6 +15,7 @@
 const Alexa = require('alexa-sdk');
 const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 var aws = require('aws-sdk');
+var converter = require('number-to-words');
 var dynamodb = new aws.DynamoDB();
 
 const handlers = {
@@ -94,11 +95,11 @@ exports.handler = (event, context) => {
 };
 
 function getCoin(coin, contextt) {
-   var params = {
+    var params = {
         TableName: "CryptoPro",
         Key: {
             "name": {
-                S: "Bitcoin"
+                S: jsUcfirst(coin)
             },
         }
     };
@@ -112,10 +113,14 @@ function getCoin(coin, contextt) {
 			contextt.emit(":responseReady");
 			}
         else {
-            contextt.response.speak("help");
+            contextt.response.speak(converter.toWords(data.Item.price.N));
 			contextt.emit(":responseReady");
 			}
         });
 	
 	
+}
+
+function jsUcfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
