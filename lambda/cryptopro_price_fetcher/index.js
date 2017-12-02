@@ -3,7 +3,7 @@ var dynamodb = new aws.DynamoDB();
 var request = require('request');
 
 exports.handler = (event, context, callback) => {
-    request("https://api.coinmarketcap.com/v1/ticker/?limit=35", function (error, response, body) {
+    request("https://api.coinmarketcap.com/v1/ticker/?limit=100", function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var btcJSON = JSON.parse(body)
                 updateCoins(btcJSON, callback)
@@ -39,7 +39,7 @@ function updateCoins(btcJSON, callback) {
         }, 
         Key: {
             "name": {
-                S: coin.name
+                S: coin.name.toLowerCase()
             }
         }, 
         ReturnValues: "ALL_NEW", 

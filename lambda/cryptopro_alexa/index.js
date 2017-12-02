@@ -1,29 +1,31 @@
-// 1. Text strings =====================================================================================================
- //    Modify these strings and messages to change the behavior of your Lambda function
+'use strict';
+const Alexa = require('alexa-sdk');
+const aws = require('aws-sdk');
+const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+const converter = require('number-to-words');
+const dynamodb = new aws.DynamoDB();
 
  let speechOutput;
  let reprompt;
  const welcomeOutput = "Welcome to CryptoPro. What crypto currency would you like to get information on?";
  const welcomeReprompt = "Let me know where you'd like to go or when you'd like to go on your trip";
- const tripIntro = [
-   "This sounds like a cool trip. ",
-   "This will be fun. ",
-   "Oh, I like this trip. "
- ];
 
-'use strict';
-const Alexa = require('alexa-sdk');
-const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
-var aws = require('aws-sdk');
-var converter = require('number-to-words');
-var dynamodb = new aws.DynamoDB();
+
 
 const handlers = {
     'LaunchRequest': function () {
       this.response.speak(welcomeOutput).listen(welcomeReprompt);
       this.emit(':responseReady');
     },
-    'CryptoPro': function () {
+    'GetPrice': function () {
+        var filledSlots = delegateSlotCollection.call(this);
+        var intentObj = this.event.request.intent;
+        if (!intentObj.slots.cryptocurrency.value) {
+            var slotToElicit = 'CryptoCurrency';
+            var speechOutput = 'Which cryptocurrency do yo want to know the price of?';
+            var repromptSpeech = speechOutput;
+            this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
+        }
         //delegate to Alexa to collect all the required slot values
         //var filledSlots = delegateSlotCollection.call(this);
 
@@ -40,7 +42,7 @@ const handlers = {
         //}
 
         //Now let's recap the trip
-        var cryptoCurrency=this.event.request.intent.slots.cryptocurrency.value;
+        //var cryptoCurrency=this.event.request.intent.slots.cryptocurrency.value;
         //var toCity=this.event.request.intent.slots.toCity.value;
         //var travelDate=this.event.request.intent.slots.travelDate.value;
         //var speechOutput = cryptoCurrency;
@@ -49,14 +51,16 @@ const handlers = {
         //if (activity) {
         //  speechOutput += " to go "+ activity;
         //}
+        
+        //console.log(cryptoCurrency);
 
-		if(cryptoCurrency == null)
-			this.response.speak("No slot found");
-		else {
-			getCoin(cryptoCurrency, this);
+		//if(cryptoCurrency == null)
+		//	this.response.speak("No slot found");
+		//else {
+		//	getCoin(cryptoCurrency, this);
 			//this.response.speak("help");
 			//this.emit(":responseReady");
-		}
+		//}
     },
     'AMAZON.HelpIntent': function () {
         speechOutput = "";
@@ -99,7 +103,7 @@ function getCoin(coin, contextt) {
         TableName: "CryptoPro",
         Key: {
             "name": {
-                S: jsUcfirst(coin)
+                S: coin
             },
         }
     };
@@ -119,8 +123,4 @@ function getCoin(coin, contextt) {
         });
 	
 	
-}
-
-function jsUcfirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }

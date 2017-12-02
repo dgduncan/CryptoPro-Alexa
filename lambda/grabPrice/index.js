@@ -30,7 +30,7 @@ function getCoin(coin, queueCallback) {
         TableName: "CryptoPro",
         Key: {
             "name": {
-                S: coin
+                S: coin.toLowerCase()
             },
         }
     };
