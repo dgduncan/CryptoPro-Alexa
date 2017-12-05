@@ -5,11 +5,10 @@ const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 const converter = require('number-to-words');
 const dynamodb = new aws.DynamoDB();
 
- let speechOutput;
- let reprompt;
- const welcomeOutput = "Welcome to CryptoPro. What crypto currency would you like to get information on?";
- const welcomeReprompt = "Let me know where you'd like to go or when you'd like to go on your trip";
-
+let speechOutput;
+let reprompt;
+const welcomeOutput = "Welcome to CryptoPro. What crypto currency would you like to get information on?";
+const welcomeReprompt = "Let me know where you'd like to go or when you'd like to go on your trip";
 
 
 const handlers = {
@@ -25,13 +24,6 @@ const handlers = {
         	var repromptSpeech = speechOutput;
         	return this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
         }
-	
-	
-	//console.log(intentObj.slots.cryptocurrency.value)
-        //delegate to Alexa to collect all the required slot values
-        //var filledSlots = delegateSlotCollection.call(this);
-
-        //compose speechOutput that simply reads all the collected slot values
 
 		
         //activity is optional so we'll add it to the output
@@ -45,15 +37,6 @@ const handlers = {
 
         //Now let's recap the trip
         //var cryptoCurrency=this.event.request.intent.slots.cryptocurrency.value;
-        //var toCity=this.event.request.intent.slots.toCity.value;
-        //var travelDate=this.event.request.intent.slots.travelDate.value;
-        //var speechOutput = cryptoCurrency;
-
-        //var activity = isSlotValid(this.event.request, "activity");
-        //if (activity) {
-        //  speechOutput += " to go "+ activity;
-        //}
-        
         //console.log(cryptoCurrency);
 
 	/*if(cryptoCurrency == null)
