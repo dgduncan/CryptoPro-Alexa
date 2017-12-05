@@ -18,14 +18,16 @@ const handlers = {
       this.emit(':responseReady');
     },
     'GetPrice': function () {
-        var filledSlots = delegateSlotCollection.call(this);
         var intentObj = this.event.request.intent;
         if (!intentObj.slots.cryptocurrency.value) {
-            var slotToElicit = 'CryptoCurrency';
-            var speechOutput = 'Which cryptocurrency do yo want to know the price of?';
-            var repromptSpeech = speechOutput;
-            this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
+            	var slotToElicit = 'cryptocurrency';
+        	var speechOutput = 'Which cryptocurrency do yo want to know the price of?';
+        	var repromptSpeech = speechOutput;
+        	return this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
         }
+	
+	
+	//console.log(intentObj.slots.cryptocurrency.value)
         //delegate to Alexa to collect all the required slot values
         //var filledSlots = delegateSlotCollection.call(this);
 
@@ -54,13 +56,14 @@ const handlers = {
         
         //console.log(cryptoCurrency);
 
-		//if(cryptoCurrency == null)
-		//	this.response.speak("No slot found");
-		//else {
-		//	getCoin(cryptoCurrency, this);
+	/*if(cryptoCurrency == null)
+		this.response.speak("No slot found");
+	else {
+		getCoin(cryptoCurrency, this);
 			//this.response.speak("help");
 			//this.emit(":responseReady");
-		//}
+		}*/
+	this.emit(":responseReady");
     },
     'AMAZON.HelpIntent': function () {
         speechOutput = "";
@@ -123,4 +126,28 @@ function getCoin(coin, contextt) {
         });
 	
 	
+}
+
+function delegateSlotCollection() {
+	console.log("in delegateSlotCollection");
+	console.log("current dialogState: "+this.event.request.dialogState);
+
+	if (context.event.request.dialogState === "STARTED") {
+		console.log("in Beginning");
+      		var updatedIntent=context.event.request.intent;
+      		//optionally pre-fill slots: update the intent object with slot values for which
+      		//you have defaults, then return Dialog.Delegate with this updated intent
+      		// in the updatedIntent property
+      		context.emit(":delegate", updatedIntent);
+    	} else if (context.event.request.dialogState !== "COMPLETED") {
+      		console.log("in not completed");
+      		// return a Dialog.Delegate directive with no updatedIntent property.
+      		context.emit(":delegate");
+    	} else {
+      		console.log("in completed");
+      		console.log("returning: "+ JSON.stringify(this.event.request.intent));
+      		// Dialog is now complete and all required slots should be filled,
+      		// so call your normal intent handler.
+      		return context.event.request.intent;
+    	}
 }
