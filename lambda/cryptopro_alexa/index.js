@@ -17,6 +17,7 @@ const handlers = {
       this.emit(':responseReady');
     },
     'GetPrice': function () {
+	console.log("Entering GetPrice")
         var intentObj = this.event.request.intent;
         if (!intentObj.slots.cryptocurrency.value) {
             	var slotToElicit = 'cryptocurrency';
@@ -25,28 +26,14 @@ const handlers = {
         	return this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
         }
 
-		
-        //activity is optional so we'll add it to the output
-        //only when we have a valid activity
-        //var travelMode = isSlotValid(this.event.request, "travelMode");
-        //if (travelMode) {
-        //  speechOutput += travelMode;
-        //} else {
-        //  speechOutput += "You'll go ";
-        //}
+        var cryptoCurrency=this.event.request.intent.slots.cryptocurrency.value;
+        
 
-        //Now let's recap the trip
-        //var cryptoCurrency=this.event.request.intent.slots.cryptocurrency.value;
-        //console.log(cryptoCurrency);
-
-	/*if(cryptoCurrency == null)
+	if(cryptoCurrency == null)
 		this.response.speak("No slot found");
 	else {
 		getCoin(cryptoCurrency, this);
-			//this.response.speak("help");
-			//this.emit(":responseReady");
-		}*/
-	this.emit(":responseReady");
+		}
     },
     'AMAZON.HelpIntent': function () {
         speechOutput = "";
@@ -71,10 +58,6 @@ const handlers = {
     },
 };
 
-
-
-
-
 exports.handler = (event, context) => {
     var alexa = Alexa.handler(event, context);
     alexa.appId = APP_ID;
@@ -96,15 +79,15 @@ function getCoin(coin, contextt) {
 	
 	//contextt.response.speak("help");
 	//contextt.emit(":responseReady");
-    
+   
     dynamodb.getItem(params, function(err, data) {
         if (err) {
             contextt.response.speak("help");
 			contextt.emit(":responseReady");
 			}
         else {
-            contextt.response.speak(converter.toWords(data.Item.price.N));
-			contextt.emit(":responseReady");
+		//contextt.response.speak(converter.toWords(data.Item.price.N));
+		contextt.emit(":tell", converter.toWords(data.Item.price.N), "test");
 			}
         });
 	
