@@ -5,7 +5,7 @@ module.exports = {
         		headers: {'Content-Type': 'application/json'},
         		body: JSON.stringify({
                 		"speech": body[0].price_usd,
-                		"displayText": body[0].price_usd,
+                		"displayText": "Currently, " + body[0].name + " is trading for " + body[0].price_usd + " US dollars",
         			"data": "",
         			"contextOut": [],
         			"source": ""
