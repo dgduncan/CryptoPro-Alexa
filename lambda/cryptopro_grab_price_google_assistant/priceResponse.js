@@ -10,7 +10,7 @@ module.exports = {
                                 "contextOut": [],
                                 "source": ""
                                 })
-                        });
+                        })
 	},
 
 	getPercentChangeUsdDay: function(callback, body) {
@@ -24,7 +24,7 @@ module.exports = {
                                 "contextOut": [],
                                 "source": ""
                                 })
-                        });
+                        })
 	},
 
 	getPercentChangeUsdWeek: function(callback, body) {
@@ -38,7 +38,7 @@ module.exports = {
                                 "contextOut": [],
                                 "source": ""
                                 })
-                        });
+                        })
 	},
 
 	getPriceUsd: function(callback, body) {
@@ -52,7 +52,7 @@ module.exports = {
         			"contextOut": [],
         			"source": ""
         			})
-            		});
+            		})
 	},
 
 	getPriceBtc: function(callback, body) {
@@ -66,8 +66,8 @@ module.exports = {
                                 "contextOut": [],
                                 "source": ""
                                 })
-                        });
-	}
+                        })
+	}}
 }
 
 function buildResponse(body, responseType) {
@@ -80,19 +80,14 @@ function buildResponse(body, responseType) {
 	
 	switch (responseType) {
 		case 0:
-			return percentChangeUsdHour;
-			break;
+			return percentChangeUsdHour
 		case 1:
-			return percentChangeUsdDay;
-			break;
+			return percentChangeUsdDay
 		case 2:
-			return percentChangeUsdWeek;
-			break;
+			return percentChangeUsdWeek
 		case 3:
 			return `Currently, ${coinName} is trading for ${priceUsd} U S dollars`
-			break;
 		case 4:
 			return `Currently, ${coinName} is trading for ${priceBtc} bitcoins per`
-			break;
 	}
 }
