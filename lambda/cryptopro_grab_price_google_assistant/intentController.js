@@ -1,8 +1,11 @@
+var marketResponse = require("./marketResponse.js")
 var priceResponse = require("./priceResponse.js")
 
 module.exports = {
 	checkIntent: function(intent, callback, body) {
 		switch(intent) {
+			case "get_day_volume_usd":
+				marketResponse.getDayVolumeUsd(callback, body)
 			case "get_percent_change_usd_hour":
 				priceResponse.getPercentChangeUsdHour(callback, body)
 			case "get_percent_change_usd_day":

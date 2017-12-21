@@ -67,7 +67,7 @@ module.exports = {
                                 "source": ""
                                 })
                         })
-	}}
+	}
 }
 
 function buildResponse(body, responseType) {
@@ -80,14 +80,20 @@ function buildResponse(body, responseType) {
 	
 	switch (responseType) {
 		case 0:
-			return percentChangeUsdHour
+			return `The price of ${coinName} has ` + movementDirection(percentChangeUsdHour) + ` by ${percentChangeUsdHour} percent over the past hour` 
 		case 1:
-			return percentChangeUsdDay
+			return `The price of ${coinName} has ` + movementDirection(percentChangeUsdDay) + ` by ${percentChangeUsdDay} percent over the past day`
 		case 2:
-			return percentChangeUsdWeek
+			return `The price of ${coinName} has ` + movementDirection(percentChangeUsdWeek) + ` by ${percentChangeUsdWeek} percent over the past week`
 		case 3:
 			return `Currently, ${coinName} is trading for ${priceUsd} U S dollars`
 		case 4:
 			return `Currently, ${coinName} is trading for ${priceBtc} bitcoins per`
 	}
+}
+
+function movementDirection(percentChange) {
+	if (percentChange < 0)
+		return "decreased"
+	return "increased"
 }
