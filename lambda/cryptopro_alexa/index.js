@@ -16,7 +16,7 @@ const handlers = {
       this.response.speak(welcomeOutput).listen(welcomeReprompt);
       this.emit(':responseReady');
     },
-    'GetPrice': function () {
+    'get_price_usd': function () {
 	console.log("Entering GetPrice")
         var intentObj = this.event.request.intent;
         if (!intentObj.slots.cryptocurrency.value) {
